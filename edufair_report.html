@@ -1,0 +1,1476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>EduFair - Student &amp; Teacher Performance Evaluation Report</title>
+<style>
+  @page {
+    size: A4 landscape;
+    margin: 8mm 10mm 8mm 10mm;
+  }
+  * {
+    box-sizing: border-box;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+    color: #1e293b;
+    font-size: 8pt;
+    line-height: 1.3;
+    background: #ffffff;
+  }
+  .page {
+    width: 277mm;
+    height: 194mm;
+    max-height: 194mm;
+    overflow: hidden;
+    page-break-after: always;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0;
+  }
+  .page:last-child {
+    page-break-after: avoid;
+  }
+
+  /* Cover Page Styles */
+  .cover-box {
+    border: 2px solid #1e3a8a;
+    border-radius: 8px;
+    padding: 8mm 12mm;
+    height: 184mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: linear-gradient(180deg, #f8fafc 0%, #ffffff 50%, #eff6ff 100%);
+  }
+  .cover-header-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #2563eb;
+    padding-bottom: 6px;
+  }
+  .inst-title {
+    font-size: 11pt;
+    font-weight: 800;
+    color: #1e3a8a;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .inst-sub {
+    font-size: 7.5pt;
+    color: #64748b;
+  }
+  .cover-center {
+    text-align: center;
+    padding: 4mm 0;
+  }
+  .cover-tag {
+    display: inline-block;
+    background: #1e3a8a;
+    color: #ffffff;
+    font-size: 11pt;
+    font-weight: 800;
+    padding: 4px 14px;
+    border-radius: 4px;
+    letter-spacing: 0.8px;
+    margin-bottom: 6px;
+  }
+  .cover-h1 {
+    font-size: 20pt;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 4px 0;
+    letter-spacing: -0.4px;
+  }
+  .cover-h2 {
+    font-size: 10.5pt;
+    font-weight: 700;
+    color: #2563eb;
+    margin: 0 0 6px 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .cover-desc {
+    font-size: 8.5pt;
+    color: #475569;
+    max-width: 640px;
+    margin: 0 auto;
+    line-height: 1.35;
+  }
+
+  /* Warning Box */
+  .warning-alert {
+    background: #fef2f2;
+    border: 2px solid #ef4444;
+    border-radius: 6px;
+    padding: 8px 12px;
+    text-align: center;
+  }
+  .warning-heading {
+    font-size: 10pt;
+    font-weight: 900;
+    color: #b91c1c;
+    letter-spacing: 0.8px;
+  }
+  .warning-text {
+    font-size: 7.5pt;
+    color: #991b1b;
+    margin-top: 3px;
+    line-height: 1.3;
+  }
+
+  .cover-metrics {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+  .metric-tile {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 5px;
+    padding: 6px 8px;
+    text-align: center;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+  }
+  .metric-label {
+    font-size: 7pt;
+    color: #64748b;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+  .metric-value {
+    font-size: 9pt;
+    font-weight: 800;
+    color: #1e3a8a;
+    margin-top: 2px;
+  }
+
+  .cover-sigs {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    border-top: 1px dashed #cbd5e1;
+    padding-top: 8px;
+  }
+  .sig-col {
+    text-align: center;
+  }
+  .sig-dash {
+    border-bottom: 1px solid #94a3b8;
+    height: 20px;
+    margin-bottom: 4px;
+  }
+  .sig-title {
+    font-size: 7.2pt;
+    font-weight: 700;
+    color: #1e293b;
+  }
+  .sig-sub {
+    font-size: 6.5pt;
+    color: #64748b;
+  }
+
+  /* Running Header */
+  .running-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-bottom: 1.5px solid #1e3a8a;
+    padding-bottom: 4px;
+    margin-bottom: 4px;
+  }
+  .rh-left {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+  .rh-brand {
+    font-size: 11pt;
+    font-weight: 800;
+    color: #1e3a8a;
+  }
+  .rh-title {
+    font-size: 8.5pt;
+    font-weight: 700;
+    color: #475569;
+  }
+  .rh-badge {
+    background: #dc2626;
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 7pt;
+    padding: 2px 8px;
+    border-radius: 3px;
+    letter-spacing: 0.6px;
+  }
+
+  /* Table */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    font-size: 7.5pt;
+  }
+  thead th {
+    background: #1e3a8a;
+    color: #ffffff;
+    font-weight: 700;
+    text-align: left;
+    padding: 4px 6px;
+    font-size: 7.3pt;
+    border: 1px solid #1e3a8a;
+    vertical-align: middle;
+  }
+  tbody td {
+    padding: 3.8px 6px;
+    border: 1px solid #cbd5e1;
+    vertical-align: middle;
+    word-wrap: break-word;
+  }
+  tbody tr:nth-child(even) {
+    background-color: #f8fafc;
+  }
+  tbody tr:nth-child(odd) {
+    background-color: #ffffff;
+  }
+
+  /* Recommendation Badges */
+  .badge-high {
+    display: inline-block;
+    background: #dcfce7;
+    color: #15803d;
+    border: 1px solid #86efac;
+    font-size: 6.5pt;
+    font-weight: 700;
+    padding: 1px 4px;
+    border-radius: 3px;
+    line-height: 1.2;
+  }
+  .badge-standard {
+    display: inline-block;
+    background: #e0f2fe;
+    color: #0369a1;
+    border: 1px solid #7dd3fc;
+    font-size: 6.5pt;
+    font-weight: 700;
+    padding: 1px 4px;
+    border-radius: 3px;
+    line-height: 1.2;
+  }
+  .badge-review {
+    display: inline-block;
+    background: #fef3c7;
+    color: #b45309;
+    border: 1px solid #fde68a;
+    font-size: 6.5pt;
+    font-weight: 700;
+    padding: 1px 4px;
+    border-radius: 3px;
+    line-height: 1.2;
+  }
+  .badge-audit {
+    display: inline-block;
+    background: #fee2e2;
+    color: #b91c1c;
+    border: 1px solid #fca5a5;
+    font-size: 6pt;
+    font-weight: 700;
+    padding: 0.5px 3px;
+    border-radius: 2px;
+    margin-left: 2px;
+    text-transform: uppercase;
+  }
+
+  /* Running Footer */
+  .running-footer {
+    border-top: 1px solid #cbd5e1;
+    padding-top: 3px;
+    margin-top: 3px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 6.8pt;
+    color: #64748b;
+  }
+  .rf-warn {
+    color: #dc2626;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+  }
+
+  /* Teacher Overview Cards */
+  .t-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+  .t-card {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 5px;
+    padding: 4px 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .tc-lbl {
+    font-size: 7pt;
+    color: #1e40af;
+    font-weight: 600;
+  }
+  .tc-val {
+    font-size: 9.5pt;
+    color: #1e3a8a;
+    font-weight: 800;
+  }
+
+  .committee-box {
+    background: #f8fafc;
+    border-left: 4px solid #1e3a8a;
+    border-radius: 4px;
+    padding: 5px 8px;
+    font-size: 6.8pt;
+    color: #334155;
+    margin-top: 5px;
+    line-height: 1.3;
+  }
+</style>
+</head>
+<body>
+
+  <!-- ==================== PAGE 1: COVER PAGE ==================== -->
+  <div class="page">
+    <div class="cover-box">
+      <div class="cover-header-bar">
+        <div>
+          <div class="inst-title">EduFair Performance Evaluation System</div>
+          <div class="inst-sub">Autonomous Institutional Analytics &amp; Scholarship Review Portal</div>
+        </div>
+        <div style="text-align: right;">
+          <span style="background: #1e3a8a; color: #fff; font-size: 7.2pt; font-weight: 700; padding: 2px 7px; border-radius: 3px;">
+            ACADEMIC SESSION 2026&ndash;2027
+          </span>
+        </div>
+      </div>
+
+      <div class="cover-center">
+        <div class="cover-tag">EDUFAIR ACADEMIC REGISTER</div>
+        <h1 class="cover-h1">Student &amp; Teacher Performance Evaluation System</h1>
+        <div class="cover-h2">Institutional Performance, Scholarship Screening &amp; Faculty Register</div>
+        <p class="cover-desc">
+          Consolidated performance metrics register compiling all 61 student master database records and 6 designated faculty appointments for the Department of Computer Science &amp; Engineering.
+        </p>
+      </div>
+
+      <div class="warning-alert">
+        <div class="warning-heading">⚠️ DEMO DATA &ndash; NOT OFFICIAL / NOT VERIFIED ⚠️</div>
+        <div class="warning-text">
+          <strong>Mandatory Notice:</strong> All student attendance figures, CGPA values, scholarship review recommendations, teacher evaluation criteria ratings, and review notes in this report are simulated demonstration values generated for system validation. They do <u>not</u> represent official institutional data. Scholarship awards and faculty salary adjustments require authorized human committee deliberation and official administrative approval.
+        </div>
+      </div>
+
+      <div class="cover-metrics">
+        <div class="metric-tile">
+          <div class="metric-label">Total Student Records</div>
+          <div class="metric-value">61 Records (Preserved)</div>
+        </div>
+        <div class="metric-tile">
+          <div class="metric-label">Faculty Appointments</div>
+          <div class="metric-value">6 Master Teachers</div>
+        </div>
+        <div class="metric-tile">
+          <div class="metric-label">Base Faculty Salary Pool</div>
+          <div class="metric-value">&#8377;4,75,000 INR</div>
+        </div>
+        <div class="metric-tile">
+          <div class="metric-label">Report Classification</div>
+          <div class="metric-value" style="color: #dc2626;">DEMO PROTOTYPE</div>
+        </div>
+      </div>
+
+      <div class="cover-sigs">
+        <div class="sig-col">
+          <div class="sig-dash"></div>
+          <div class="sig-title">Hemant Kr Kushwaha</div>
+          <div class="sig-sub">Faculty Mentor (Ecode: J5177)</div>
+        </div>
+        <div class="sig-col">
+          <div class="sig-dash"></div>
+          <div class="sig-title">Head of Department</div>
+          <div class="sig-sub">Computer Science &amp; Engineering</div>
+        </div>
+        <div class="sig-col">
+          <div class="sig-dash"></div>
+          <div class="sig-title">Dean of Academic Affairs</div>
+          <div class="sig-dept">Academic Review Committee</div>
+        </div>
+        <div class="sig-col">
+          <div class="sig-dash"></div>
+          <div class="sig-title">Controller of Examinations</div>
+          <div class="sig-dept">Scholarship Oversight Board</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="running-footer">
+      <div>EduFair Performance Evaluation System &bull; Academic Year 2026&ndash;2027</div>
+      <div class="rf-warn">DEMO DATA &ndash; NOT OFFICIAL / NOT VERIFIED</div>
+      <div>Page 1 of 6</div>
+    </div>
+  </div>
+
+  <!-- ==================== PAGE 2: STUDENT REGISTER ==================== -->
+  <div class="page">
+    <div>
+      <div class="running-header">
+        <div class="rh-left">
+          <span class="rh-brand">EduFair System</span>
+          <span class="rh-title">&bull; Student Performance Register (Records 1&ndash;16 of 61)</span>
+        </div>
+        <div>
+          <span class="rh-badge">DEMO DATA &ndash; NOT OFFICIAL / NOT VERIFIED</span>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 3.5%; text-align: center;">#</th>
+            <th style="width: 13.5%;">Roll Number</th>
+            <th style="width: 16.5%;">Student Name</th>
+            <th style="width: 15%;">Mentor Name</th>
+            <th style="width: 10.5%; text-align: center;">Attendance %</th>
+            <th style="width: 10%; text-align: center;">CGPA (out of 10)</th>
+            <th style="width: 17%;">Scholarship Review Recommendation</th>
+            <th style="width: 14%;">Teacher Feedback</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">1</td>
+            <td><strong>2546569</strong></td>
+            <td style="font-weight: 600; color: #0f172a;">Aditya Raj</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">85.3% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">7.18 (Demo)</td>
+            <td><span class="badge-review">Needs Review &ndash; Support Plan</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Consistently demonstrates strong analytical reasoning in coursework.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">2</td>
+            <td><strong>2546570</strong></td>
+            <td style="font-weight: 600; color: #0f172a;">Aditya Singh</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">86.0% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">7.20 (Demo)</td>
+            <td><span class="badge-review">Needs Review &ndash; Support Plan</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Shows strong grasp of algorithmic concepts; submits work on time.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">3</td>
+            <td><strong>2546571</strong></td>
+            <td style="font-weight: 600; color: #0f172a;">Aishmeen</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">87.7% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">7.32 (Demo)</td>
+            <td><span class="badge-review">Needs Review &ndash; Support Plan</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Regular attendance; shows steady improvement in problem-solving speed.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">4</td>
+            <td><strong>2546573</strong></td>
+            <td style="font-weight: 600; color: #0f172a;">Alok Pandey</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">89.1% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">7.56 (Demo)</td>
+            <td><span class="badge-review">Needs Review &ndash; Support Plan</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Exhibits keen interest in practical labs and project implementation.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">5</td>
+            <td><strong>2546574</strong></td>
+            <td style="font-weight: 600; color: #0f172a;">Aniket Tripathi</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">90.8% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">7.68 (Demo)</td>
+            <td><span class="badge-standard">Standard &ndash; Continue / Review</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Displays diligent study habits; shows high potential in logic design.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">6</td>
+            <td><strong>2546575</strong></td>
+            <td style="font-weight: 600; color: #0f172a;">Anish Ramola</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">91.5% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">7.70 (Demo)</td>
+            <td><span class="badge-standard">Standard &ndash; Continue / Review</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Punctual and attentive; active contributor in lab exercises.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">7</td>
+            <td><strong>2546580</strong></td>
+            <td style="font-weight: 600; color: #0f172a;">Arnav Thakur</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">76.0% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">8.20 (Demo)</td>
+            <td><span class="badge-review">Needs Review &ndash; Support Plan</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Exhibits keen interest in practical labs and project implementation.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">8</td>
+            <td><strong>$2,546,581</strong> <span class="badge-audit" title="Source Raw Currency/Formatted String">Raw Source</span></td>
+            <td style="font-weight: 600; color: #0f172a;">Arpit Singh</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">77.7% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">8.32 (Demo)</td>
+            <td><span class="badge-review">Needs Review &ndash; Support Plan</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Displays diligent study habits; shows high potential in logic design.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">9</td>
+            <td><strong>2546582</strong></td>
+            <td style="font-weight: 600; color: #0f172a;">Aryan Chandel</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">78.4% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">8.44 (Demo)</td>
+            <td><span class="badge-standard">Standard &ndash; Continue / Review</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Punctual and attentive; active contributor in lab exercises.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">10</td>
+            <td><strong>2546583</strong></td>
+            <td style="font-weight: 600; color: #0f172a;">Ashish Kumar</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">79.1% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">8.56 (Demo)</td>
+            <td><span class="badge-standard">Standard &ndash; Continue / Review</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Engaged during mentoring sessions; recommended for peer study groups.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">11</td>
+            <td><strong>2546584</strong></td>
+            <td style="font-weight: 600; color: #0f172a;">Asmit Maurya</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">80.8% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">8.68 (Demo)</td>
+            <td><span class="badge-standard">Standard &ndash; Continue / Review</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Attentive listener; demonstrates disciplined academic work ethic.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">12</td>
+            <td><strong>2546581</strong> <span class="badge-audit" title="Source Duplicate Entry">Duplicate</span></td>
+            <td style="font-weight: 600; color: #0f172a;">Avneet Singh</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">77.7% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">8.32 (Demo)</td>
+            <td><span class="badge-review">Needs Review &ndash; Support Plan</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Engaged during mentoring sessions; recommended for peer study groups.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">13</td>
+            <td><strong>2546589</strong></td>
+            <td style="font-weight: 600; color: #0f172a;">Ayush Sharma</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">85.3% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">9.18 (Demo)</td>
+            <td><span class="badge-high">High &ndash; Eligible for Committee Review</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Shows strong grasp of algorithmic concepts; submits work on time.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">14</td>
+            <td><strong>2546591</strong></td>
+            <td style="font-weight: 600; color: #0f172a;">Chirag Kumar</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">87.7% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">9.32 (Demo)</td>
+            <td><span class="badge-high">High &ndash; Eligible for Committee Review</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Attentive listener; demonstrates disciplined academic work ethic.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">15</td>
+            <td><strong>2546594</strong></td>
+            <td style="font-weight: 600; color: #0f172a;">Divyanshu Kumar Verma</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">90.8% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">7.38 (Demo)</td>
+            <td><span class="badge-review">Needs Review &ndash; Support Plan</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Displays diligent study habits; shows high potential in logic design.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">16</td>
+            <td><strong>2546595</strong></td>
+            <td style="font-weight: 600; color: #0f172a;">Dushyant Kumar</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">91.5% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">7.40 (Demo)</td>
+            <td><span class="badge-review">Needs Review &ndash; Support Plan</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Punctual and attentive; active contributor in lab exercises.</td>
+          </tr>
+    
+        </tbody>
+      </table>
+    </div>
+
+    <div>
+      <div style="font-size: 6.5pt; color: #64748b; margin-top: 3px; border-top: 1px dotted #cbd5e1; padding-top: 2px; display: flex; justify-content: space-between;">
+        <span>* Field Inclusions: Roll Number, Student Name, Mentor Name, Attendance %, CGPA (out of 10), Scholarship Review Recommendation, Teacher Feedback.</span>
+        <span style="color: #b91c1c; font-weight: 700;">Zero unapproved marks or sensitive performance calculations included.</span>
+      </div>
+      <div class="running-footer">
+        <div>EduFair Performance Evaluation System &bull; Student Performance Register</div>
+        <div class="rf-warn">DEMO DATA &ndash; NOT OFFICIAL / NOT VERIFIED</div>
+        <div>Page 2 of 6</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== PAGE 3: STUDENT REGISTER ==================== -->
+  <div class="page">
+    <div>
+      <div class="running-header">
+        <div class="rh-left">
+          <span class="rh-brand">EduFair System</span>
+          <span class="rh-title">&bull; Student Performance Register (Records 17&ndash;32 of 61)</span>
+        </div>
+        <div>
+          <span class="rh-badge">DEMO DATA &ndash; NOT OFFICIAL / NOT VERIFIED</span>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 3.5%; text-align: center;">#</th>
+            <th style="width: 13.5%;">Roll Number</th>
+            <th style="width: 16.5%;">Student Name</th>
+            <th style="width: 15%;">Mentor Name</th>
+            <th style="width: 10.5%; text-align: center;">Attendance %</th>
+            <th style="width: 10%; text-align: center;">CGPA (out of 10)</th>
+            <th style="width: 17%;">Scholarship Review Recommendation</th>
+            <th style="width: 14%;">Teacher Feedback</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">17</td>
+            <td><strong>2546597</strong></td>
+            <td style="font-weight: 600; color: #0f172a;">Gourav Jindal</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">93.9% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">7.64 (Demo)</td>
+            <td><span class="badge-standard">Standard &ndash; Continue / Review</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Regular attendance; shows steady improvement in problem-solving speed.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">18</td>
+            <td><strong>2546598</strong></td>
+            <td style="font-weight: 600; color: #0f172a;">Gourav Singh Kanwar</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">94.6% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">7.76 (Demo)</td>
+            <td><span class="badge-standard">Standard &ndash; Continue / Review</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Good conceptual clarity; recommended for advanced seminar topics.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">19</td>
+            <td><strong>2546601</strong> <span class="badge-audit" title="Source Duplicate Entry">Duplicate</span></td>
+            <td style="font-weight: 600; color: #0f172a;">Harmanpreet Kaur</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">77.7% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">7.22 (Demo)</td>
+            <td><span class="badge-review">Needs Review &ndash; Support Plan</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Consistently demonstrates strong analytical reasoning in coursework.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">20</td>
+            <td><strong>2546602</strong></td>
+            <td style="font-weight: 600; color: #0f172a;">Harshit Kumar</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">78.4% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">7.34 (Demo)</td>
+            <td><span class="badge-review">Needs Review &ndash; Support Plan</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Shows strong grasp of algorithmic concepts; submits work on time.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">21</td>
+            <td><strong>2546607</strong></td>
+            <td style="font-weight: 600; color: #0f172a;">Jitender Kumar</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">83.9% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">7.84 (Demo)</td>
+            <td><span class="badge-standard">Standard &ndash; Continue / Review</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Cooperative in group workshops; maintains positive classroom engagement.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">22</td>
+            <td><strong>2546610</strong></td>
+            <td style="font-weight: 600; color: #0f172a;">Kartik</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">86.0% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">8.10 (Demo)</td>
+            <td><span class="badge-standard">Standard &ndash; Continue / Review</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Shows strong grasp of algorithmic concepts; submits work on time.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">23</td>
+            <td><strong>2546611</strong></td>
+            <td style="font-weight: 600; color: #0f172a;">Kartik Charaya</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">87.7% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">8.22 (Demo)</td>
+            <td><span class="badge-standard">Standard &ndash; Continue / Review</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Regular attendance; shows steady improvement in problem-solving speed.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">24</td>
+            <td><strong>2546612</strong></td>
+            <td style="font-weight: 600; color: #0f172a;">Krishan</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">88.4% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">8.34 (Demo)</td>
+            <td><span class="badge-standard">Standard &ndash; Continue / Review</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Good conceptual clarity; recommended for advanced seminar topics.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">25</td>
+            <td><strong>2546614</strong></td>
+            <td style="font-weight: 600; color: #0f172a;">Krishna Garg</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">90.8% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">8.58 (Demo)</td>
+            <td><span class="badge-high">High &ndash; Eligible for Committee Review</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Displays diligent study habits; shows high potential in logic design.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">26</td>
+            <td><strong>2546617</strong></td>
+            <td style="font-weight: 600; color: #0f172a;">Laiba Noor</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">93.9% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">8.84 (Demo)</td>
+            <td><span class="badge-high">High &ndash; Eligible for Committee Review</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Engaged during mentoring sessions; recommended for peer study groups.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">27</td>
+            <td><strong>2546618</strong></td>
+            <td style="font-weight: 600; color: #0f172a;">Lakshita</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">94.6% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">8.96 (Demo)</td>
+            <td><span class="badge-high">High &ndash; Eligible for Committee Review</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Attentive listener; demonstrates disciplined academic work ethic.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">28</td>
+            <td><strong>2546620</strong></td>
+            <td style="font-weight: 600; color: #0f172a;">Mahendra Singh Dhoni</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">76.0% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">9.10 (Demo)</td>
+            <td><span class="badge-review">Needs Review &ndash; Support Plan</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Cooperative in group workshops; maintains positive classroom engagement.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">29</td>
+            <td><strong>2546621</strong></td>
+            <td style="font-weight: 600; color: #0f172a;">Mahi Raj</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">77.7% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">9.22 (Demo)</td>
+            <td><span class="badge-review">Needs Review &ndash; Support Plan</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Consistently demonstrates strong analytical reasoning in coursework.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">30</td>
+            <td><strong>2546625</strong></td>
+            <td style="font-weight: 600; color: #0f172a;">Mayank Raj</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">81.5% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">7.30 (Demo)</td>
+            <td><span class="badge-review">Needs Review &ndash; Support Plan</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Attentive listener; demonstrates disciplined academic work ethic.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">31</td>
+            <td><strong>2546626</strong></td>
+            <td style="font-weight: 600; color: #0f172a;">Mohd Uvaish</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">82.2% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">7.42 (Demo)</td>
+            <td><span class="badge-review">Needs Review &ndash; Support Plan</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Exhibits keen interest in practical labs and project implementation.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">32</td>
+            <td><strong>2546627</strong></td>
+            <td style="font-weight: 600; color: #0f172a;">Naman Kumar</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">83.9% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">7.54 (Demo)</td>
+            <td><span class="badge-review">Needs Review &ndash; Support Plan</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Displays diligent study habits; shows high potential in logic design.</td>
+          </tr>
+    
+        </tbody>
+      </table>
+    </div>
+
+    <div>
+      <div style="font-size: 6.5pt; color: #64748b; margin-top: 3px; border-top: 1px dotted #cbd5e1; padding-top: 2px; display: flex; justify-content: space-between;">
+        <span>* Field Inclusions: Roll Number, Student Name, Mentor Name, Attendance %, CGPA (out of 10), Scholarship Review Recommendation, Teacher Feedback.</span>
+        <span style="color: #b91c1c; font-weight: 700;">Zero unapproved marks or sensitive performance calculations included.</span>
+      </div>
+      <div class="running-footer">
+        <div>EduFair Performance Evaluation System &bull; Student Performance Register</div>
+        <div class="rf-warn">DEMO DATA &ndash; NOT OFFICIAL / NOT VERIFIED</div>
+        <div>Page 3 of 6</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== PAGE 4: STUDENT REGISTER ==================== -->
+  <div class="page">
+    <div>
+      <div class="running-header">
+        <div class="rh-left">
+          <span class="rh-brand">EduFair System</span>
+          <span class="rh-title">&bull; Student Performance Register (Records 33&ndash;48 of 61)</span>
+        </div>
+        <div>
+          <span class="rh-badge">DEMO DATA &ndash; NOT OFFICIAL / NOT VERIFIED</span>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 3.5%; text-align: center;">#</th>
+            <th style="width: 13.5%;">Roll Number</th>
+            <th style="width: 16.5%;">Student Name</th>
+            <th style="width: 15%;">Mentor Name</th>
+            <th style="width: 10.5%; text-align: center;">Attendance %</th>
+            <th style="width: 10%; text-align: center;">CGPA (out of 10)</th>
+            <th style="width: 17%;">Scholarship Review Recommendation</th>
+            <th style="width: 14%;">Teacher Feedback</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">33</td>
+            <td><strong>2546628</strong> <span class="badge-audit" title="Source Duplicate Entry">Duplicate</span></td>
+            <td style="font-weight: 600; color: #0f172a;">Navneet Kaur</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">84.6% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">7.66 (Demo)</td>
+            <td><span class="badge-standard">Standard &ndash; Continue / Review</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Punctual and attentive; active contributor in lab exercises.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">34</td>
+            <td><strong>2546629</strong></td>
+            <td style="font-weight: 600; color: #0f172a;">Navneet Raj</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">85.3% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">7.78 (Demo)</td>
+            <td><span class="badge-standard">Standard &ndash; Continue / Review</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Engaged during mentoring sessions; recommended for peer study groups.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">35</td>
+            <td><strong>2546630</strong></td>
+            <td style="font-weight: 600; color: #0f172a;">Nikhil Kumar</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">86.0% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">7.80 (Demo)</td>
+            <td><span class="badge-standard">Standard &ndash; Continue / Review</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Attentive listener; demonstrates disciplined academic work ethic.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">36</td>
+            <td><strong>2546632</strong></td>
+            <td style="font-weight: 600; color: #0f172a;">Pari Goyal</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">88.4% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">8.04 (Demo)</td>
+            <td><span class="badge-standard">Standard &ndash; Continue / Review</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Cooperative in group workshops; maintains positive classroom engagement.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">37</td>
+            <td><strong>2546633</strong></td>
+            <td style="font-weight: 600; color: #0f172a;">Piyush Kumar</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">89.1% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">8.16 (Demo)</td>
+            <td><span class="badge-standard">Standard &ndash; Continue / Review</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Consistently demonstrates strong analytical reasoning in coursework.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">38</td>
+            <td><strong>2546634</strong></td>
+            <td style="font-weight: 600; color: #0f172a;">Pranvi Gupta</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">90.8% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">8.28 (Demo)</td>
+            <td><span class="badge-standard">Standard &ndash; Continue / Review</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Shows strong grasp of algorithmic concepts; submits work on time.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">39</td>
+            <td><strong>2546635</strong></td>
+            <td style="font-weight: 600; color: #0f172a;">Preetam</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">91.5% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">8.30 (Demo)</td>
+            <td><span class="badge-standard">Standard &ndash; Continue / Review</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Regular attendance; shows steady improvement in problem-solving speed.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">40</td>
+            <td><strong>2546636</strong></td>
+            <td style="font-weight: 600; color: #0f172a;">Prince Patel</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">92.2% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">8.42 (Demo)</td>
+            <td><span class="badge-standard">Standard &ndash; Continue / Review</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Good conceptual clarity; recommended for advanced seminar topics.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">41</td>
+            <td><strong>2546637</strong></td>
+            <td style="font-weight: 600; color: #0f172a;">Prince Raj</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">93.9% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">8.54 (Demo)</td>
+            <td><span class="badge-high">High &ndash; Eligible for Committee Review</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Cooperative in group workshops; maintains positive classroom engagement.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">42</td>
+            <td><strong>2546638</strong></td>
+            <td style="font-weight: 600; color: #0f172a;">Priyanshu Kumar</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">94.6% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">8.66 (Demo)</td>
+            <td><span class="badge-high">High &ndash; Eligible for Committee Review</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Consistently demonstrates strong analytical reasoning in coursework.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">43</td>
+            <td><strong>2546639</strong></td>
+            <td style="font-weight: 600; color: #0f172a;">Priyanshu Nautiyal</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">95.3% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">8.78 (Demo)</td>
+            <td><span class="badge-high">High &ndash; Eligible for Committee Review</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Shows strong grasp of algorithmic concepts; submits work on time.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">44</td>
+            <td><strong>2546640</strong></td>
+            <td style="font-weight: 600; color: #0f172a;">Raj Ranjan Kumar</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">76.0% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">8.80 (Demo)</td>
+            <td><span class="badge-review">Needs Review &ndash; Support Plan</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Regular attendance; shows steady improvement in problem-solving speed.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">45</td>
+            <td><strong>2546642</strong></td>
+            <td style="font-weight: 600; color: #0f172a;">Ramprit Kumar</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">78.4% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">9.04 (Demo)</td>
+            <td><span class="badge-standard">Standard &ndash; Continue / Review</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Exhibits keen interest in practical labs and project implementation.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">46</td>
+            <td><strong>2546644</strong></td>
+            <td style="font-weight: 600; color: #0f172a;">Rishabh Kumar Singh</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">80.8% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">9.28 (Demo)</td>
+            <td><span class="badge-standard">Standard &ndash; Continue / Review</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Consistently demonstrates strong analytical reasoning in coursework.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">47</td>
+            <td><strong>2546645</strong></td>
+            <td style="font-weight: 600; color: #0f172a;">Riya</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">81.5% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">9.30 (Demo)</td>
+            <td><span class="badge-standard">Standard &ndash; Continue / Review</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Shows strong grasp of algorithmic concepts; submits work on time.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">48</td>
+            <td><strong>2546646</strong> <span class="badge-audit" title="Source Duplicate Entry">Duplicate</span></td>
+            <td style="font-weight: 600; color: #0f172a;">Riya</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">82.2% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">7.12 (Demo)</td>
+            <td><span class="badge-review">Needs Review &ndash; Support Plan</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Regular attendance; shows steady improvement in problem-solving speed.</td>
+          </tr>
+    
+        </tbody>
+      </table>
+    </div>
+
+    <div>
+      <div style="font-size: 6.5pt; color: #64748b; margin-top: 3px; border-top: 1px dotted #cbd5e1; padding-top: 2px; display: flex; justify-content: space-between;">
+        <span>* Field Inclusions: Roll Number, Student Name, Mentor Name, Attendance %, CGPA (out of 10), Scholarship Review Recommendation, Teacher Feedback.</span>
+        <span style="color: #b91c1c; font-weight: 700;">Zero unapproved marks or sensitive performance calculations included.</span>
+      </div>
+      <div class="running-footer">
+        <div>EduFair Performance Evaluation System &bull; Student Performance Register</div>
+        <div class="rf-warn">DEMO DATA &ndash; NOT OFFICIAL / NOT VERIFIED</div>
+        <div>Page 4 of 6</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== PAGE 5: STUDENT REGISTER ==================== -->
+  <div class="page">
+    <div>
+      <div class="running-header">
+        <div class="rh-left">
+          <span class="rh-brand">EduFair System</span>
+          <span class="rh-title">&bull; Student Performance Register (Records 49&ndash;61 of 61)</span>
+        </div>
+        <div>
+          <span class="rh-badge">DEMO DATA &ndash; NOT OFFICIAL / NOT VERIFIED</span>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 3.5%; text-align: center;">#</th>
+            <th style="width: 13.5%;">Roll Number</th>
+            <th style="width: 16.5%;">Student Name</th>
+            <th style="width: 15%;">Mentor Name</th>
+            <th style="width: 10.5%; text-align: center;">Attendance %</th>
+            <th style="width: 10%; text-align: center;">CGPA (out of 10)</th>
+            <th style="width: 17%;">Scholarship Review Recommendation</th>
+            <th style="width: 14%;">Teacher Feedback</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">49</td>
+            <td><strong>2546647</strong></td>
+            <td style="font-weight: 600; color: #0f172a;">Riya Thapa</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">83.9% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">7.24 (Demo)</td>
+            <td><span class="badge-review">Needs Review &ndash; Support Plan</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Good conceptual clarity; recommended for advanced seminar topics.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">50</td>
+            <td><strong>2546649</strong></td>
+            <td style="font-weight: 600; color: #0f172a;">Sahil Koundal</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">85.3% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">7.48 (Demo)</td>
+            <td><span class="badge-review">Needs Review &ndash; Support Plan</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Displays diligent study habits; shows high potential in logic design.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">51</td>
+            <td><strong>2546650</strong></td>
+            <td style="font-weight: 600; color: #0f172a;">Sahil Kumar</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">86.0% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">7.50 (Demo)</td>
+            <td><span class="badge-review">Needs Review &ndash; Support Plan</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Punctual and attentive; active contributor in lab exercises.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">52</td>
+            <td><strong>2546651</strong></td>
+            <td style="font-weight: 600; color: #0f172a;">Sahil Kumar</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">87.7% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">7.62 (Demo)</td>
+            <td><span class="badge-standard">Standard &ndash; Continue / Review</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Engaged during mentoring sessions; recommended for peer study groups.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">53</td>
+            <td><strong>2546652</strong></td>
+            <td style="font-weight: 600; color: #0f172a;">Saksham</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">88.4% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">7.74 (Demo)</td>
+            <td><span class="badge-standard">Standard &ndash; Continue / Review</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Attentive listener; demonstrates disciplined academic work ethic.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">54</td>
+            <td><strong>2546654</strong></td>
+            <td style="font-weight: 600; color: #0f172a;">Sameer Moudgil</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">90.8% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">7.98 (Demo)</td>
+            <td><span class="badge-standard">Standard &ndash; Continue / Review</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Cooperative in group workshops; maintains positive classroom engagement.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">55</td>
+            <td><strong>2546660</strong></td>
+            <td style="font-weight: 600; color: #0f172a;">Shiv Tripathi</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">76.0% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">8.50 (Demo)</td>
+            <td><span class="badge-review">Needs Review &ndash; Support Plan</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Attentive listener; demonstrates disciplined academic work ethic.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">56</td>
+            <td><strong>2546662</strong></td>
+            <td style="font-weight: 600; color: #0f172a;">Shubham Kumar</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">78.4% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">8.74 (Demo)</td>
+            <td><span class="badge-standard">Standard &ndash; Continue / Review</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Cooperative in group workshops; maintains positive classroom engagement.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">57</td>
+            <td><strong>2546603</strong></td>
+            <td style="font-weight: 600; color: #0f172a;">Hitaishi</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">79.1% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">7.46 (Demo)</td>
+            <td><span class="badge-review">Needs Review &ndash; Support Plan</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Consistently demonstrates strong analytical reasoning in coursework.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">58</td>
+            <td><strong>2546606</strong></td>
+            <td style="font-weight: 600; color: #0f172a;">Jatin Kumar</td>
+            <td style="color: #334155;">Hemant kr kushwah</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">82.2% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">7.72 (Demo)</td>
+            <td><span class="badge-standard">Standard &ndash; Continue / Review</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Regular attendance; shows steady improvement in problem-solving speed.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">59</td>
+            <td><strong>2546628</strong> <span class="badge-audit" title="Source Duplicate Entry">Duplicate</span></td>
+            <td style="font-weight: 600; color: #0f172a;">Navneet Kaur</td>
+            <td style="color: #334155;">Hemant kr kushwant</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">84.6% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">7.66 (Demo)</td>
+            <td><span class="badge-standard">Standard &ndash; Continue / Review</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Exhibits keen interest in practical labs and project implementation.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">60</td>
+            <td><strong>2546646</strong> <span class="badge-audit" title="Source Duplicate Entry">Duplicate</span></td>
+            <td style="font-weight: 600; color: #0f172a;">Riya dubey</td>
+            <td style="color: #334155;">Hemant kr kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">82.2% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">7.12 (Demo)</td>
+            <td><span class="badge-review">Needs Review &ndash; Support Plan</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Good conceptual clarity; recommended for advanced seminar topics.</td>
+          </tr>
+    
+          <tr>
+            <td style="text-align: center; color: #64748b; font-weight: 600;">61</td>
+            <td><strong>2546601</strong> <span class="badge-audit" title="Source Duplicate Entry">Duplicate</span></td>
+            <td style="font-weight: 600; color: #0f172a;">Harmanpreet Kaur</td>
+            <td style="color: #334155;">Hemant Kr Kushwaha</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">77.7% (Demo)</td>
+            <td style="text-align: center; font-weight: 700; color: #0f172a;">7.22 (Demo)</td>
+            <td><span class="badge-review">Needs Review &ndash; Support Plan</span></td>
+            <td style="font-size: 7.2pt; color: #334155;">Shows strong grasp of algorithmic concepts; submits work on time.</td>
+          </tr>
+    
+        </tbody>
+      </table>
+    </div>
+
+    <div>
+      <div style="font-size: 6.5pt; color: #64748b; margin-top: 3px; border-top: 1px dotted #cbd5e1; padding-top: 2px; display: flex; justify-content: space-between;">
+        <span>* Field Inclusions: Roll Number, Student Name, Mentor Name, Attendance %, CGPA (out of 10), Scholarship Review Recommendation, Teacher Feedback.</span>
+        <span style="color: #b91c1c; font-weight: 700;">Zero unapproved marks or sensitive performance calculations included.</span>
+      </div>
+      <div class="running-footer">
+        <div>EduFair Performance Evaluation System &bull; Student Performance Register</div>
+        <div class="rf-warn">DEMO DATA &ndash; NOT OFFICIAL / NOT VERIFIED</div>
+        <div>Page 5 of 6</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== PAGE 6: TEACHER REGISTER ==================== -->
+  <div class="page">
+    <div>
+      <div class="running-header">
+        <div class="rh-left">
+          <span class="rh-brand">EduFair System</span>
+          <span class="rh-title">&bull; Teacher Performance Register (Faculty Evaluation &amp; Salary Ledger)</span>
+        </div>
+        <div>
+          <span class="rh-badge">DEMO DATA &ndash; NOT OFFICIAL / NOT VERIFIED</span>
+        </div>
+      </div>
+
+      <div class="t-cards">
+        <div class="t-card">
+          <span class="tc-lbl">Faculty Members</span>
+          <span class="tc-val">6 Teachers</span>
+        </div>
+        <div class="t-card">
+          <span class="tc-lbl">Base Salary Pool</span>
+          <span class="tc-val">&#8377;4,75,000 INR</span>
+        </div>
+        <div class="t-card">
+          <span class="tc-lbl">Salary Period</span>
+          <span class="tc-val" style="font-size: 8pt; font-weight: 700; color: #475569;">Unspecified</span>
+        </div>
+        <div class="t-card">
+          <span class="tc-lbl">Compensation Review</span>
+          <span class="tc-val" style="font-size: 7.5pt; font-weight: 700; color: #dc2626;">Human Committee Req.</span>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 13%;">Teacher Name</th>
+            <th style="width: 6%; text-align: center;">Subject</th>
+            <th style="width: 11%; text-align: right;">Salary (INR)</th>
+            <th style="width: 9%; text-align: center;">Teaching Quality</th>
+            <th style="width: 9%; text-align: center;">Syllabus Completion</th>
+            <th style="width: 9%; text-align: center;">Student Feedback</th>
+            <th style="width: 9%; text-align: center;">Doubt-Solving</th>
+            <th style="width: 9%; text-align: center;">Professional Conduct</th>
+            <th style="width: 25%;">Teacher Feedback / Review Note</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr>
+            <td style="font-weight: 700; color: #0f172a; font-size: 8.2pt;">
+              Ashish Patil
+            </td>
+            <td style="text-align: center; font-weight: 700; color: #1e3a8a;">
+              <span style="background: #dbeafe; color: #1e40af; padding: 2px 5px; border-radius: 3px;">OOPJ</span>
+            </td>
+            <td style="text-align: right; font-weight: 800; color: #0f172a; font-size: 8.5pt;">
+              &#8377;80,000
+              <div style="font-size: 6.2pt; color: #64748b; font-weight: 500;">Period Unspecified</div>
+            </td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">4.6 / 5.0 (Demo)</td>
+            <td style="text-align: center; font-weight: 600; color: #15803d;">94% (Demo)</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">4.5 / 5.0 (Demo)</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">4.5 / 5.0 (Demo)</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">4.8 / 5.0 (Demo)</td>
+            <td style="font-size: 7pt; color: #334155; line-height: 1.25;">
+              Demonstrates high pedagogical mastery in Object-Oriented Programming (Java). Laboratory engagement and student code reviews are conducted with exceptional rigor. Advisory recommendation: Maintain high standing; final compensation changes require Review Committee approval.
+            </td>
+          </tr>
+  
+          <tr>
+            <td style="font-weight: 700; color: #0f172a; font-size: 8.2pt;">
+              Silla Ann Regi
+            </td>
+            <td style="text-align: center; font-weight: 700; color: #1e3a8a;">
+              <span style="background: #dbeafe; color: #1e40af; padding: 2px 5px; border-radius: 3px;">DSA</span>
+            </td>
+            <td style="text-align: right; font-weight: 800; color: #0f172a; font-size: 8.5pt;">
+              &#8377;1,00,000
+              <div style="font-size: 6.2pt; color: #64748b; font-weight: 500;">Period Unspecified</div>
+            </td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">4.8 / 5.0 (Demo)</td>
+            <td style="text-align: center; font-weight: 600; color: #15803d;">96% (Demo)</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">4.8 / 5.0 (Demo)</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">4.7 / 5.0 (Demo)</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">4.9 / 5.0 (Demo)</td>
+            <td style="font-size: 7pt; color: #334155; line-height: 1.25;">
+              Exceptional depth of instruction in Data Structures & Algorithms. High student comprehension in algorithmic complexity analysis and problem-solving workshops. Advisory recommendation: Exemplary standing; final compensation changes require Review Committee approval.
+            </td>
+          </tr>
+  
+          <tr>
+            <td style="font-weight: 700; color: #0f172a; font-size: 8.2pt;">
+              Pushpander Kumar
+            </td>
+            <td style="text-align: center; font-weight: 700; color: #1e3a8a;">
+              <span style="background: #dbeafe; color: #1e40af; padding: 2px 5px; border-radius: 3px;">DMS</span>
+            </td>
+            <td style="text-align: right; font-weight: 800; color: #0f172a; font-size: 8.5pt;">
+              &#8377;85,000
+              <div style="font-size: 6.2pt; color: #64748b; font-weight: 500;">Period Unspecified</div>
+            </td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">4.4 / 5.0 (Demo)</td>
+            <td style="text-align: center; font-weight: 600; color: #15803d;">91% (Demo)</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">4.3 / 5.0 (Demo)</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">4.2 / 5.0 (Demo)</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">4.7 / 5.0 (Demo)</td>
+            <td style="font-size: 7pt; color: #334155; line-height: 1.25;">
+              Thorough coverage of Discrete Mathematics syllabus with well-structured relational models and graph theory assignments. Advisory recommendation: Commendable performance; final compensation changes require Review Committee approval.
+            </td>
+          </tr>
+  
+          <tr>
+            <td style="font-weight: 700; color: #0f172a; font-size: 8.2pt;">
+              Rahul Purohit
+            </td>
+            <td style="text-align: center; font-weight: 700; color: #1e3a8a;">
+              <span style="background: #dbeafe; color: #1e40af; padding: 2px 5px; border-radius: 3px;">DLD</span>
+            </td>
+            <td style="text-align: right; font-weight: 800; color: #0f172a; font-size: 8.5pt;">
+              &#8377;80,000
+              <div style="font-size: 6.2pt; color: #64748b; font-weight: 500;">Period Unspecified</div>
+            </td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">4.3 / 5.0 (Demo)</td>
+            <td style="text-align: center; font-weight: 600; color: #15803d;">88% (Demo)</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">4.2 / 5.0 (Demo)</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">4.1 / 5.0 (Demo)</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">4.6 / 5.0 (Demo)</td>
+            <td style="font-size: 7pt; color: #334155; line-height: 1.25;">
+              Clear delivery of Digital Logic Design principles, truth tables, and combinational circuits. Laboratory simulation sessions well attended. Advisory recommendation: Solid standing; final compensation changes require Review Committee approval.
+            </td>
+          </tr>
+  
+          <tr>
+            <td style="font-weight: 700; color: #0f172a; font-size: 8.2pt;">
+              Komal Sharma
+            </td>
+            <td style="text-align: center; font-weight: 700; color: #1e3a8a;">
+              <span style="background: #dbeafe; color: #1e40af; padding: 2px 5px; border-radius: 3px;">ISC</span>
+            </td>
+            <td style="text-align: right; font-weight: 800; color: #0f172a; font-size: 8.5pt;">
+              &#8377;50,000
+              <div style="font-size: 6.2pt; color: #64748b; font-weight: 500;">Period Unspecified</div>
+            </td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">4.1 / 5.0 (Demo)</td>
+            <td style="text-align: center; font-weight: 600; color: #15803d;">85% (Demo)</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">4.0 / 5.0 (Demo)</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">3.9 / 5.0 (Demo)</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">4.5 / 5.0 (Demo)</td>
+            <td style="font-size: 7pt; color: #334155; line-height: 1.25;">
+              Comprehensive curriculum coverage in Information Security & Cyber Ethics. Students benefit from case study discussions and security protocols. Advisory recommendation: Satisfactory standing; final compensation changes require Review Committee approval.
+            </td>
+          </tr>
+  
+          <tr>
+            <td style="font-weight: 700; color: #0f172a; font-size: 8.2pt;">
+              Sourabh Kumar
+            </td>
+            <td style="text-align: center; font-weight: 700; color: #1e3a8a;">
+              <span style="background: #dbeafe; color: #1e40af; padding: 2px 5px; border-radius: 3px;">IOPS</span>
+            </td>
+            <td style="text-align: right; font-weight: 800; color: #0f172a; font-size: 8.5pt;">
+              &#8377;80,000
+              <div style="font-size: 6.2pt; color: #64748b; font-weight: 500;">Period Unspecified</div>
+            </td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">4.4 / 5.0 (Demo)</td>
+            <td style="text-align: center; font-weight: 600; color: #15803d;">89% (Demo)</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">4.3 / 5.0 (Demo)</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">4.3 / 5.0 (Demo)</td>
+            <td style="text-align: center; font-weight: 600; color: #1e3a8a;">4.7 / 5.0 (Demo)</td>
+            <td style="font-size: 7pt; color: #334155; line-height: 1.25;">
+              Effective instruction in Input/Output & Operating Systems architecture, thread management, and memory paging concepts. Advisory recommendation: Commendable performance; final compensation changes require Review Committee approval.
+            </td>
+          </tr>
+  
+        </tbody>
+      </table>
+
+      <div class="committee-box">
+        <strong>Administrative Review Committee Policy:</strong> In strict compliance with institutional guidelines, all teacher evaluation ratings, qualitative feedback, and advisory review notes are non-binding recommendations. The EduFair system does not automatically execute salary increments or decrements. Any modification to faculty remuneration requires formal evaluation and unanimous sign-off by the Institutional Compensation &amp; Review Committee.
+      </div>
+    </div>
+
+    <div>
+      <div style="font-size: 6.5pt; color: #64748b; margin-top: 3px; border-top: 1px dotted #cbd5e1; padding-top: 2px; display: flex; justify-content: space-between;">
+        <span>* Field Inclusions: Teacher Name, Subject, Salary (INR; period unspecified), Teaching Quality, Syllabus Completion, Student Feedback, Doubt-Solving Performance, Professional Conduct, Review Note.</span>
+        <span style="color: #b91c1c; font-weight: 700;">Zero unapproved marks or sensitive performance calculations included.</span>
+      </div>
+      <div class="running-footer">
+        <div>EduFair Performance Evaluation System &bull; Teacher Performance Register</div>
+        <div class="rf-warn">DEMO DATA &ndash; NOT OFFICIAL / NOT VERIFIED</div>
+        <div>Page 6 of 6</div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
